@@ -318,3 +318,58 @@ First match wins. No ranking needed for this scope.
 | DB error                      | 500 with generic message |
 
 ---
+
+## Example API workings
+
+### /enquiry
+
+```bash
+curl -s -X POST http://localhost:8000/enquiry  -H "Content-Type: application/json"  -d '{"customer_name": "John Doe", "channel": "whatsapp", "message": "I want pricing details"}' | python3 -m json.tool
+```
+
+```
+{
+    "enquiry_id": 2,
+    "status": "OPEN",
+    "message": "Enquiry received successfully"
+}
+```
+
+### History + Timeline -> /enquiry/{id}/history
+
+```bash
+curl -s http://localhost:8000/enquiry/1/history | python3 -m json.tool
+```
+
+```
+{
+    "enquiry": {
+        "id": 1,
+        "customer_name": "John Doe",
+        "channel": "whatsapp",
+        "message": "I want to know the pricing details",
+        "status": "OPEN",
+        "matched_sop": "pricing",
+        "suggested_response": "Thank you for your interest. Our pricing plans are tailored to your business needs. A representative will share a detailed quote with you shortly.",
+        "created_at": "2026-05-23T03:52:29.906190",
+        "updated_at": "2026-05-23T03:52:29.940322"
+    },
+    "timeline": [
+        {
+            "event_type": "enquiry_created",
+            "message": "Enquiry received via whatsapp from John Doe",
+            "timestamp": "2026-05-23T03:52:29.928320"
+        },
+        {
+            "event_type": "sop_matched",
+            "message": "Matched SOP: pricing",
+            "timestamp": "2026-05-23T03:52:29.948269"
+        },
+        {
+            "event_type": "response_generated",
+            "message": "Suggested response generated for SOP: pricing",
+            "timestamp": "2026-05-23T03:52:29.955584"
+        }
+    ]
+}
+```

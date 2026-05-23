@@ -1,0 +1,125 @@
+### Health Check
+GET http://localhost:8000/health
+
+
+### Create Enquiry - Pricing
+POST http://localhost:8000/enquiry
+Content-Type: application/json
+
+{
+  "customer_name": "John Doe",
+  "channel": "whatsapp",
+  "message": "I want to know the pricing details and cost of your plans"
+}
+
+
+### Create Enquiry - Booking
+POST http://localhost:8000/enquiry
+Content-Type: application/json
+
+{
+  "customer_name": "Sarah Ahmed",
+  "channel": "email",
+  "message": "I would like to book an appointment and check available slots"
+}
+
+
+### Create Enquiry - Complaint
+POST http://localhost:8000/enquiry
+Content-Type: application/json
+
+{
+  "customer_name": "Ravi Kumar",
+  "channel": "call",
+  "message": "I have a serious complaint, the service is bad and I want a refund"
+}
+
+
+### Create Enquiry - After Hours
+POST http://localhost:8000/enquiry
+Content-Type: application/json
+
+{
+  "customer_name": "Priya Singh",
+  "channel": "whatsapp",
+  "message": "Are you available after hours on the weekend or is the office closed"
+}
+
+
+### Create Enquiry - No SOP Match (triggers auto-escalation)
+POST http://localhost:8000/enquiry
+Content-Type: application/json
+
+{
+  "customer_name": "Alex Turner",
+  "channel": "email",
+  "message": "zxqwerty random gibberish message with no matching intent"
+}
+
+
+### Schedule Follow-up (replace 1 with a valid enquiry ID)
+POST http://localhost:8000/enquiry/1/followup
+Content-Type: application/json
+
+{
+  "delay_minutes": 30,
+  "message_template": "Hi {name}, just following up on your enquiry. Please let us know if you need further assistance."
+}
+
+
+### Escalate Enquiry (replace 1 with a valid enquiry ID)
+POST http://localhost:8000/enquiry/1/escalate
+Content-Type: application/json
+
+{
+  "reason": "Customer explicitly requested to speak with a human agent"
+}
+
+
+### Get Enquiry History (replace 1 with a valid enquiry ID)
+GET http://localhost:8000/enquiry/1/history
+
+
+### Edge Cases
+
+### Follow-up on non-existent enquiry
+POST http://localhost:8000/enquiry/9999/followup
+Content-Type: application/json
+
+{
+  "delay_minutes": 15,
+  "message_template": "Following up"
+}
+
+
+### Escalate non-existent enquiry
+POST http://localhost:8000/enquiry/9999/escalate
+Content-Type: application/json
+
+{
+  "reason": "Testing 404 handling"
+}
+
+
+### History of non-existent enquiry
+GET http://localhost:8000/enquiry/9999/history
+
+
+### Invalid payload - missing required field
+POST http://localhost:8000/enquiry
+Content-Type: application/json
+
+{
+  "customer_name": "John Doe"
+}
+
+
+### Invalid channel value
+POST http://localhost:8000/enquiry
+Content-Type: application/json
+
+{
+  "customer_name": "John Doe",
+  "channel": "telegram",
+  "message": "This channel is not supported"
+}

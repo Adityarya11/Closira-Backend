@@ -19,11 +19,17 @@ h11==0.16.0
 idna==3.16
     # via anyio
 pydantic==2.13.4
-    # via fastapi
+    # via
+    #   fastapi
+    #   pydantic-settings
 pydantic-core==2.46.4
     # via pydantic
-python-dotenv==1.2.2
+pydantic-settings==2.14.1
     # via closira-backend (pyproject.toml)
+python-dotenv==1.2.2
+    # via
+    #   closira-backend (pyproject.toml)
+    #   pydantic-settings
 sqlalchemy==2.0.49
     # via closira-backend (pyproject.toml)
 starlette==1.0.1
@@ -41,5 +47,6 @@ typing-inspection==0.4.2
     # via
     #   fastapi
     #   pydantic
+    #   pydantic-settings
 uvicorn==0.47.0
     # via closira-backend (pyproject.toml)
